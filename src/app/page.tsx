@@ -15,7 +15,7 @@ export default function Home() {
             width: "400px",
             height: "400px",
             border: "12px solid #00ef8b",
-            opacity: 0.4,
+            opacity: 0.5,
           }}
         ></div>
 
@@ -27,7 +27,7 @@ export default function Home() {
             width: "500px",
             height: "500px",
             border: "12px solid #a855f7",
-            opacity: 0.35,
+            opacity: 0.5,
           }}
         ></div>
 
@@ -39,7 +39,7 @@ export default function Home() {
             width: "180px",
             height: "180px",
             border: "8px solid #22d3ee",
-            opacity: 0.45,
+            opacity: 0.5,
           }}
         ></div>
 
@@ -50,8 +50,8 @@ export default function Home() {
             right: "100px",
             width: "250px",
             height: "250px",
-            border: "10px solid #00ef8b",
-            opacity: 0.42,
+            border: "10px solid #f59e0b",
+            opacity: 0.5,
           }}
         ></div>
 
@@ -63,7 +63,7 @@ export default function Home() {
             width: "320px",
             height: "320px",
             border: "10px solid #ec4899",
-            opacity: 0.3,
+            opacity: 0.5,
             transform: "translateY(-50%)",
           }}
         ></div>
@@ -76,7 +76,7 @@ export default function Home() {
             width: "240px",
             height: "240px",
             border: "8px solid #3b82f6",
-            opacity: 0.35,
+            opacity: 0.5,
           }}
         ></div>
       </div>
