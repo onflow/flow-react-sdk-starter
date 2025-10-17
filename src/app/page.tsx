@@ -2,28 +2,106 @@ import { FlowHeader } from "@/components/flow-header";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden">
+      <div
+        className="absolute inset-0 pointer-events-none hidden lg:block"
+        style={{ zIndex: 0 }}
+      >
+        <div
+          className="absolute rounded-full"
+          style={{
+            top: "-80px",
+            right: "-80px",
+            width: "400px",
+            height: "400px",
+            border: "12px solid #00ef8b",
+            opacity: 0.4,
+          }}
+        ></div>
+
+        <div
+          className="absolute rounded-full"
+          style={{
+            bottom: "-100px",
+            left: "-100px",
+            width: "500px",
+            height: "500px",
+            border: "12px solid #a855f7",
+            opacity: 0.35,
+          }}
+        ></div>
+
+        <div
+          className="absolute rounded-full"
+          style={{
+            top: "120px",
+            left: "80px",
+            width: "180px",
+            height: "180px",
+            border: "8px solid #22d3ee",
+            opacity: 0.45,
+          }}
+        ></div>
+
+        <div
+          className="absolute rounded-full"
+          style={{
+            bottom: "100px",
+            right: "100px",
+            width: "250px",
+            height: "250px",
+            border: "10px solid #00ef8b",
+            opacity: 0.42,
+          }}
+        ></div>
+
+        <div
+          className="absolute rounded-full"
+          style={{
+            top: "50%",
+            right: "-60px",
+            width: "320px",
+            height: "320px",
+            border: "10px solid #ec4899",
+            opacity: 0.3,
+            transform: "translateY(-50%)",
+          }}
+        ></div>
+
+        <div
+          className="absolute rounded-full"
+          style={{
+            top: "25%",
+            left: "-50px",
+            width: "240px",
+            height: "240px",
+            border: "8px solid #3b82f6",
+            opacity: 0.35,
+          }}
+        ></div>
+      </div>
+
       <FlowHeader />
 
-      <main className="container mx-auto px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16">
-          <div className="max-w-6xl w-full space-y-12">
-            <div className="text-center space-y-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black dark:text-white tracking-tight leading-none">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-8 sm:py-12 lg:py-16">
+          <div className="max-w-6xl w-full space-y-8 sm:space-y-10 lg:space-y-12">
+            <div className="text-center space-y-3 sm:space-y-4">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white tracking-tight leading-none px-4">
                 Build on Flow
               </h1>
-              <p className="text-lg sm:text-xl text-black/50 dark:text-white/50 max-w-3xl mx-auto leading-relaxed font-light">
+              <p className="text-base sm:text-lg lg:text-xl text-black/50 dark:text-white/50 max-w-3xl mx-auto leading-relaxed font-light px-4">
                 A minimal Next.js starter template for building decentralized
                 applications on the Flow blockchain
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-6xl mx-auto px-4 sm:px-0">
               <a
                 href="https://react.flow.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden rounded-3xl bg-[rgb(241,245,249)] dark:bg-white/[0.04] p-6 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] transition-all duration-500 ease-out"
+                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[rgb(241,245,249)] dark:bg-white/[0.04] p-5 sm:p-6 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] transition-all duration-500 ease-out"
               >
                 <div className="space-y-3">
                   <div className="w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -56,7 +134,7 @@ export default function Home() {
                 href="https://developers.flow.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden rounded-3xl bg-[rgb(241,245,249)] dark:bg-white/[0.04] p-6 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] transition-all duration-500 ease-out"
+                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[rgb(241,245,249)] dark:bg-white/[0.04] p-5 sm:p-6 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] transition-all duration-500 ease-out"
               >
                 <div className="space-y-3">
                   <div className="w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -89,7 +167,7 @@ export default function Home() {
                 href="https://github.com/onflow/fcl-js/tree/master/packages/react-sdk"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden rounded-3xl bg-[rgb(241,245,249)] dark:bg-white/[0.04] p-6 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] transition-all duration-500 ease-out"
+                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[rgb(241,245,249)] dark:bg-white/[0.04] p-5 sm:p-6 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] transition-all duration-500 ease-out"
               >
                 <div className="space-y-3">
                   <div className="w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -120,7 +198,7 @@ export default function Home() {
                 href="https://cadence-lang.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden rounded-3xl bg-[rgb(241,245,249)] dark:bg-white/[0.04] p-6 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] transition-all duration-500 ease-out"
+                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[rgb(241,245,249)] dark:bg-white/[0.04] p-5 sm:p-6 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] transition-all duration-500 ease-out"
               >
                 <div className="space-y-3">
                   <div className="w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -150,8 +228,8 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="text-center pt-6">
-              <p className="text-sm text-black/30 dark:text-white/30 font-light">
+            <div className="text-center pt-4 sm:pt-6 px-4">
+              <p className="text-xs sm:text-sm text-black/30 dark:text-white/30 font-light">
                 Built with Next.js and @onflow/react-sdk
               </p>
             </div>
