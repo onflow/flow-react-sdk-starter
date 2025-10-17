@@ -1,10 +1,28 @@
 # Flow React SDK Starter
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A minimal Next.js starter template for building Flow blockchain applications using `@onflow/react-sdk`.
+
+## Features
+
+- **Next.js** with App Router
+- **Flow React SDK** (`@onflow/react-sdk`) pre-configured
+- **TypeScript** support
+- **Tailwind CSS** for styling
+- **FlowProvider** wrapper with Testnet configuration
 
 ## Getting Started
 
-First, run the development server:
+### Installation
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+### Development
 
 ```bash
 npm run dev
@@ -12,27 +30,72 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout with FlowProvider
+│   ├── page.tsx            # Main landing page
+│   └── globals.css         # Global styles
+└── components/
+    ├── flow-provider-wrapper.tsx   # FlowProvider configuration
+    └── flow-header.tsx     # Header with Connect component
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## FlowProvider Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The `FlowProvider` is configured in `src/components/flow-provider-wrapper.tsx` with **Flow Testnet** by default.
 
-## Deploy on Vercel
+To switch networks, update the config:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Mainnet:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```typescript
+accessNodeUrl: "https://rest-mainnet.onflow.org",
+discoveryWallet: "https://fcl-discovery.onflow.org/mainnet/authn",
+flowNetwork: "mainnet",
+```
+
+**Emulator:**
+
+```typescript
+accessNodeUrl: "http://localhost:8888",
+discoveryWallet: "http://localhost:8701/fcl/authn",
+flowNetwork: "emulator",
+```
+
+## Building Your Application
+
+This starter provides a minimal foundation. Add your own components and pages as needed:
+
+```typescript
+// Example: Create a new page
+import { FlowHeader } from "@/components/flow-header";
+
+export default function MyPage() {
+  return (
+    <div>
+      <FlowHeader />
+      {/* Your content here */}
+    </div>
+  );
+}
+```
+
+## Resources
+
+- [Flow React SDK Documentation](https://react.flow.com)
+- [Flow Developer Portal](https://developers.flow.com)
+- [Cadence Documentation](https://cadence-lang.org)
+- [FCL GitHub](https://github.com/onflow/fcl-js)
