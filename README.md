@@ -45,12 +45,12 @@ npm run build
 ```
 src/
 ├── app/
-│   ├── layout.tsx          # Root layout with FlowProvider
-│   ├── page.tsx            # Main landing page
-│   └── globals.css         # Global styles
+│   ├── layout.tsx                  # Root layout with FlowProvider
+│   ├── page.tsx                    # Main landing page
+│   └── globals.css                 # Global styles
 └── components/
     ├── flow-provider-wrapper.tsx   # FlowProvider configuration
-    └── flow-header.tsx     # Header with Connect component
+    └── flow-header.tsx             # Header with Connect component
 ```
 
 ## FlowProvider Configuration
