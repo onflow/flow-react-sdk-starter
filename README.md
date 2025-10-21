@@ -1,14 +1,19 @@
 # Flow React SDK Starter
 
-A minimal Next.js starter template for building Flow blockchain applications using `@onflow/react-sdk`.
+A minimal Next.js starter template for building Flow blockchain applications using `@onflow/react-sdk`. This starter includes interactive tutorials and examples to help you get started quickly.
 
 ## Features
 
-- **Next.js** with App Router
-- **Flow React SDK** (`@onflow/react-sdk`) pre-configured
-- **TypeScript** support
-- **Tailwind CSS** for styling
+- **Next.js** with App Router and Turbopack
+- **Flow React SDK** `@onflow/react-sdk` pre-configured
 - **FlowProvider** wrapper with Testnet configuration
+- **Interactive tutorials** with working examples:
+  - Wallet connection with official Connect component
+  - Testnet faucet integration
+  - Balance checking with `useFlowQuery`
+  - Token transfers with `useFlowMutate`
+- **Network indicator** showing current Flow network (Testnet/Mainnet/Emulator)
+- **Responsive design** optimized for mobile, tablet, and desktop
 
 ## Getting Started
 
@@ -46,11 +51,17 @@ npm run build
 src/
 ├── app/
 │   ├── layout.tsx                  # Root layout with FlowProvider
-│   ├── page.tsx                    # Main landing page
+│   ├── page.tsx                    # Main landing page (Server Component)
 │   └── globals.css                 # Global styles
 └── components/
     ├── flow-provider-wrapper.tsx   # FlowProvider configuration
-    └── flow-header.tsx             # Header with Connect component
+    ├── flow-header.tsx             # Header with Connect component & network indicator
+    ├── flow-content.tsx            # Main content component (Client Component)
+    └── tutorial/
+        ├── wallet-connect.tsx      # Step 1: Wallet connection tutorial
+        ├── faucet-funding.tsx      # Step 2: Testnet faucet integration
+        ├── flow-balance.tsx        # Step 3: Balance query example (useFlowQuery)
+        └── send-flow.tsx           # Step 4: Token transfer example (useFlowMutate)
 ```
 
 ## FlowProvider Configuration
@@ -72,30 +83,143 @@ flowNetwork: "mainnet",
 ```typescript
 accessNodeUrl: "http://localhost:8888",
 discoveryWallet: "http://localhost:8701/fcl/authn",
+discoveryAuthnEndpoint: "http://localhost:8701/fcl/authn",
 flowNetwork: "emulator",
 ```
 
-## Building Your Application
+## Running on Flow Emulator
 
-This starter provides a minimal foundation. Add your own components and pages as needed:
+The Flow Emulator allows you to run a local Flow blockchain for development and testing. The Connect button works seamlessly with the emulator's dev wallet.
+
+### Prerequisites
+
+Install the Flow CLI ([full installation guide](https://developers.flow.com/build/tools/flow-cli/install)):
+
+```bash
+# macOS (Homebrew - recommended)
+brew install flow-cli
+
+# macOS/Linux (pre-built binary)
+sudo sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)"
+
+# Windows (PowerShell)
+iex "& { $(irm 'https://raw.githubusercontent.com/onflow/flow-cli/master/install.ps1') }"
+```
+
+Verify installation:
+
+```bash
+flow version
+```
+
+### Starting the Emulator
+
+1. **Start the Flow Emulator:**
+
+```bash
+flow emulator start
+```
+
+This will start:
+- Flow Emulator on `http://localhost:8888`
+- Dev Wallet on `http://localhost:8701`
+
+2. **Configure FlowProvider for Emulator**
+
+Update `src/components/flow-provider-wrapper.tsx`:
 
 ```typescript
-// Example: Create a new page
-import { FlowHeader } from "@/components/flow-header";
-
-export default function MyPage() {
+export function FlowProviderWrapper({ children }: FlowProviderWrapperProps) {
   return (
-    <div>
-      <FlowHeader />
-      {/* Your content here */}
-    </div>
+    <FlowProvider
+      config={{
+        // Emulator configuration
+        accessNodeUrl: "http://localhost:8888",
+        discoveryWallet: "http://localhost:8701/fcl/authn",
+        discoveryAuthnEndpoint: "http://localhost:8701/fcl/authn",
+        flowNetwork: "emulator",
+
+        // App metadata
+        appDetailTitle: "Flow React SDK Starter",
+        appDetailUrl:
+          typeof window !== "undefined" ? window.location.origin : "",
+        appDetailIcon: "https://avatars.githubusercontent.com/u/62387156?v=4",
+        appDetailDescription:
+          "A Next.js starter template for Flow blockchain applications",
+
+        // Optional configuration
+        computeLimit: 1000,
+      }}
+    >
+      {children}
+    </FlowProvider>
   );
 }
 ```
 
+3. **Start the Development Server:**
+
+```bash
+npm run dev
+```
+
+4. **Connect with Dev Wallet:**
+
+Click the "Connect Wallet" button - it will open the Flow Dev Wallet UI at `http://localhost:8701`. The dev wallet comes with pre-funded test accounts ready to use.
+
+## Tutorial Examples
+
+The starter includes interactive tutorial components that demonstrate core Flow SDK features:
+
+### 1. Wallet Connection
+
+```typescript
+import { Connect } from "@onflow/react-sdk";
+
+// Official Connect component with wallet discovery
+<Connect />
+```
+
+Get [Flow Wallet](https://wallet.flow.com) to get started.
+
+### 2. Query Balance (useFlowQuery)
+
+```typescript
+import { useFlowCurrentUser, useFlowQuery } from "@onflow/react-sdk";
+
+const { user } = useFlowCurrentUser();
+const { data: balance, isLoading, error, refetch } = useFlowQuery({
+  cadence: FLOW_BALANCE_SCRIPT,
+  args: (arg, t) => [arg(user?.addr || "", t.Address)],
+});
+```
+
+The `useFlowQuery` hook executes Cadence scripts to read blockchain data.
+
+### 3. Send Transaction (useFlowMutate)
+
+```typescript
+import { useFlowMutate } from "@onflow/react-sdk";
+
+const { mutate, isPending, isSuccess, error } = useFlowMutate();
+
+const handleSend = () => {
+  const formattedAmount = parseFloat(amount).toFixed(8);
+  mutate({
+    cadence: TRANSFER_FLOW_TRANSACTION,
+    args: (arg, t) => [arg(formattedAmount, t.UFix64), arg(recipient, t.Address)],
+  });
+};
+```
+
+The `useFlowMutate` hook executes Cadence transactions that modify blockchain state.
+
 ## Resources
 
-- [Flow React SDK Documentation](https://react.flow.com)
-- [Flow Developer Portal](https://developers.flow.com)
-- [Cadence Documentation](https://cadence-lang.org)
-- [FCL GitHub](https://github.com/onflow/fcl-js)
+- [Flow Wallet](https://wallet.flow.com) - Official Flow wallet
+- [Flow Testnet Faucet](https://faucet.flow.com/fund-account) - Get free testnet tokens
+- [Flow React SDK Documentation](https://react.flow.com) - Complete SDK reference
+- [Flow Developer Portal](https://developers.flow.com) - Developer resources
+- [Cadence Documentation](https://cadence-lang.org) - Smart contract language
+- [FCL GitHub](https://github.com/onflow/fcl-js) - Flow Client Library
+- [FlowScan](https://testnet.flowscan.io) - Testnet block explorer
