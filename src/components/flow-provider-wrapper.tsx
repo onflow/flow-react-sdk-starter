@@ -2,6 +2,7 @@
 
 import { FlowProvider } from "@onflow/react-sdk";
 import { ReactNode } from "react";
+import flowJSON from "../../flow.json";
 
 interface FlowProviderWrapperProps {
   children: ReactNode;
@@ -31,6 +32,7 @@ export function FlowProviderWrapper({ children }: FlowProviderWrapperProps) {
         // Example WalletConnect project ID
         walletconnectProjectId: "9b70cfa398b2355a5eb9b1cf99f4a981",
       }}
+      flowJson={flowJSON}
     >
       {children}
     </FlowProvider>

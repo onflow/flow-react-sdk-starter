@@ -8,8 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@onflow/fcl": "^1.20.2",
-    "@onflow/react-sdk": "^0.10.3",
+    "@onflow/fcl": "^1.20.3",
+    "@onflow/react-sdk": "^0.11.0",
     "next": "15.5.6",
     "react": "19.1.0",
     "react-dom": "19.1.0"

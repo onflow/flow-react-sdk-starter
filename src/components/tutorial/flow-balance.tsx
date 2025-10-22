@@ -1,7 +1,10 @@
 "use client";
 
-import { useFlowCurrentUser, useFlowQuery } from "@onflow/react-sdk";
-import { useState } from "react";
+import {
+  useFlowCurrentUser,
+  useFlowQuery,
+  useFlowConfig,
+} from "@onflow/react-sdk";
 
 const FLOW_BALANCE_SCRIPT = `
 import FungibleToken from 0xFungibleToken
@@ -34,8 +37,16 @@ const CONTRACT_ADDRESSES: Record<string, Record<string, string>> = {
 
 export function FlowBalance({ stepNumber = 3 }: { stepNumber?: number }) {
   const { user } = useFlowCurrentUser();
+  const { flowNetwork } = useFlowConfig();
   const address = user?.addr;
-  const [network] = useState("testnet");
+  const network = flowNetwork || "testnet";
+
+  // Ensure address has 0x prefix
+  const formattedAddress = address
+    ? address.startsWith("0x")
+      ? address
+      : `0x${address}`
+    : "";
 
   const script = FLOW_BALANCE_SCRIPT.replace(
     /0xFungibleToken/g,
@@ -49,7 +60,7 @@ export function FlowBalance({ stepNumber = 3 }: { stepNumber?: number }) {
     refetch,
   } = useFlowQuery({
     cadence: script,
-    args: (arg, t) => [arg(address || "", t.Address)],
+    args: (arg, t) => [arg(formattedAddress, t.Address)],
   });
 
   return (
@@ -57,7 +68,9 @@ export function FlowBalance({ stepNumber = 3 }: { stepNumber?: number }) {
       <div className="flex flex-col gap-4">
         <div className="flex items-start gap-4">
           <div className="flex-shrink-0 w-10 h-10 rounded-2xl bg-[#22d3ee]/10 dark:bg-[#22d3ee]/20 flex items-center justify-center">
-            <span className="text-lg font-bold text-[#22d3ee]">{stepNumber}</span>
+            <span className="text-lg font-bold text-[#22d3ee]">
+              {stepNumber}
+            </span>
           </div>
           <div className="flex-1">
             <h3 className="text-xl font-semibold text-black dark:text-white mb-2">

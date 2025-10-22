@@ -1,6 +1,6 @@
 "use client";
 
-import { useFlowCurrentUser, useFlowMutate } from "@onflow/react-sdk";
+import { useFlowCurrentUser, useFlowMutate, useFlowConfig } from "@onflow/react-sdk";
 import { useState } from "react";
 
 const TRANSFER_FLOW_TRANSACTION = `
@@ -47,10 +47,11 @@ const CONTRACT_ADDRESSES: Record<string, Record<string, string>> = {
 
 export function SendFlow({ stepNumber = 4 }: { stepNumber?: number }) {
   const { user } = useFlowCurrentUser();
+  const { flowNetwork } = useFlowConfig();
   const address = user?.addr;
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
-  const [network] = useState("testnet");
+  const network = flowNetwork || "testnet";
 
   const transaction = TRANSFER_FLOW_TRANSACTION.replace(
     /0xFungibleToken/g,
@@ -66,11 +67,13 @@ export function SendFlow({ stepNumber = 4 }: { stepNumber?: number }) {
     }
     // Convert amount to proper decimal format (UFix64 requires decimal notation)
     const formattedAmount = parseFloat(amount).toFixed(8);
+    // Ensure recipient address has 0x prefix
+    const formattedRecipient = recipient.startsWith("0x") ? recipient : `0x${recipient}`;
     mutate({
       cadence: transaction,
       args: (arg, t) => [
         arg(formattedAmount, t.UFix64),
-        arg(recipient, t.Address),
+        arg(formattedRecipient, t.Address),
       ],
     });
   };
@@ -144,18 +147,20 @@ export function SendFlow({ stepNumber = 4 }: { stepNumber?: number }) {
               </button>
 
               {isSuccess && (
-                <div className="mt-3 p-3 rounded-xl bg-green-500/10 border border-green-500/20">
-                  <p className="text-xs text-green-600 dark:text-green-400 font-medium mb-1">
+                <div className="mt-3 p-3 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-between">
+                  <p className="text-xs text-green-600 dark:text-green-400 font-medium">
                     Transaction successful!
                   </p>
-                  <a
-                    href={`https://testnet.flowscan.io/transaction/${data}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-green-600 dark:text-green-400 underline hover:no-underline"
-                  >
-                    View on FlowScan
-                  </a>
+                  {network !== "emulator" && (
+                    <a
+                      href={`https://${network === "mainnet" ? "" : "testnet."}flowscan.io/transaction/${data}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-green-600 dark:text-green-400 underline hover:no-underline whitespace-nowrap"
+                    >
+                      View on FlowScan
+                    </a>
+                  )}
                 </div>
               )}
 

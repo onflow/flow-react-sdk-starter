@@ -112,60 +112,95 @@ Verify installation:
 flow version
 ```
 
+### Project Setup for Emulator
+
+This project has been initialized with `flow init`, which created the necessary Cadence development environment:
+
+```bash
+cadence/
+├── contracts/
+│   └── Counter.cdc              # Example smart contract
+├── scripts/
+│   └── GetCounter.cdc           # Script to read contract state
+├── transactions/
+│   └── IncrementCounter.cdc     # Transaction to modify state
+└── tests/
+    └── Counter_test.cdc         # Contract tests
+
+flow.json                        # Flow configuration file
+emulator-account.pkey            # Emulator account private key
+```
+
 ### Starting the Emulator
 
-1. **Start the Flow Emulator:**
+**IMPORTANT**: You must start BOTH the Flow Emulator AND the Dev Wallet before trying to connect your wallet in the application.
 
-```bash
-flow emulator start
-```
+1. **Start the Flow Emulator (Terminal 1):**
 
-This will start:
-- Flow Emulator on `http://localhost:8888`
-- Dev Wallet on `http://localhost:8701`
+   ```bash
+   flow emulator start
+   ```
 
-2. **Configure FlowProvider for Emulator**
+   This starts the Flow Emulator on `http://localhost:8888`. Keep this terminal window open.
 
-Update `src/components/flow-provider-wrapper.tsx`:
+2. **Start the Dev Wallet (Terminal 2):**
 
-```typescript
-export function FlowProviderWrapper({ children }: FlowProviderWrapperProps) {
-  return (
-    <FlowProvider
-      config={{
-        // Emulator configuration
-        accessNodeUrl: "http://localhost:8888",
-        discoveryWallet: "http://localhost:8701/fcl/authn",
-        discoveryAuthnEndpoint: "http://localhost:8701/fcl/authn",
-        flowNetwork: "emulator",
+   Open a **new terminal** and run:
 
-        // App metadata
-        appDetailTitle: "Flow React SDK Starter",
-        appDetailUrl:
-          typeof window !== "undefined" ? window.location.origin : "",
-        appDetailIcon: "https://avatars.githubusercontent.com/u/62387156?v=4",
-        appDetailDescription:
-          "A Next.js starter template for Flow blockchain applications",
+   ```bash
+   flow dev-wallet
+   ```
 
-        // Optional configuration
-        computeLimit: 1000,
-      }}
-    >
-      {children}
-    </FlowProvider>
-  );
-}
-```
+   This starts the Dev Wallet on `http://localhost:8701`. Keep this terminal window open as well.
 
-3. **Start the Development Server:**
+3. **Configure FlowProvider for Emulator**
 
-```bash
-npm run dev
-```
+   The `src/components/flow-provider-wrapper.tsx` is already configured for the emulator with the `flowJson` prop:
 
-4. **Connect with Dev Wallet:**
+   ```typescript
+   import flowJSON from "../../flow.json";
 
-Click the "Connect Wallet" button - it will open the Flow Dev Wallet UI at `http://localhost:8701`. The dev wallet comes with pre-funded test accounts ready to use.
+   export function FlowProviderWrapper({ children }: FlowProviderWrapperProps) {
+     return (
+       <FlowProvider
+         config={{
+           // Emulator configuration
+           accessNodeUrl: "http://localhost:8888",
+           discoveryWallet: "http://localhost:8701/fcl/authn",
+           flowNetwork: "emulator",
+
+           // App metadata
+           appDetailTitle: "Flow React SDK Starter",
+           appDetailUrl:
+             typeof window !== "undefined" ? window.location.origin : "",
+           appDetailIcon: "https://avatars.githubusercontent.com/u/62387156?v=4",
+           appDetailDescription:
+             "A Next.js starter template for Flow blockchain applications",
+
+           // Optional configuration
+           computeLimit: 1000,
+         }}
+         flowJson={flowJSON}
+       >
+         {children}
+       </FlowProvider>
+     );
+   }
+   ```
+
+   The `flowJson` prop automatically loads contract addresses and account configuration from `flow.json`, making it easier to work with deployed contracts on the emulator.
+
+4. **Start the NextJS Development Server (Terminal 3):**
+
+   Open another terminal and run:
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Connect with Dev Wallet:**
+
+   Click the "Connect Wallet" button - it will open the Flow Dev Wallet UI at `http://localhost:8701`. The dev wallet comes with pre-funded test accounts ready to use.
 
 ## Tutorial Examples
 
