@@ -1,6 +1,6 @@
 {
   "name": "flow-react-sdk-starter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A minimal Next.js starter template to build on Flow",
   "scripts": {
     "dev": "next dev --turbopack",
