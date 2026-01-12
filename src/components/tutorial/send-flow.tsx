@@ -2,48 +2,7 @@
 
 import { useFlowCurrentUser, useFlowMutate, useFlowConfig } from "@onflow/react-sdk";
 import { useState } from "react";
-
-const TRANSFER_FLOW_TRANSACTION = `
-import FungibleToken from 0xFungibleToken
-import FlowToken from 0xFlowToken
-
-transaction(amount: UFix64, to: Address) {
-    let vault: @{FungibleToken.Vault}
-
-    prepare(signer: auth(BorrowValue) &Account) {
-        let vaultRef = signer.storage.borrow<auth(FungibleToken.Withdraw) &FlowToken.Vault>(
-            from: /storage/flowTokenVault
-        ) ?? panic("Could not borrow reference to the owner's Vault!")
-
-        self.vault <- vaultRef.withdraw(amount: amount)
-    }
-
-    execute {
-        let recipient = getAccount(to)
-        let receiverRef = recipient.capabilities
-            .get<&{FungibleToken.Receiver}>(/public/flowTokenReceiver)
-            .borrow()
-            ?? panic("Could not borrow receiver reference to the recipient's Vault")
-
-        receiverRef.deposit(from: <-self.vault)
-    }
-}
-`;
-
-const CONTRACT_ADDRESSES: Record<string, Record<string, string>> = {
-  testnet: {
-    FungibleToken: "0x9a0766d93b6608b7",
-    FlowToken: "0x7e60df042a9c0868",
-  },
-  mainnet: {
-    FungibleToken: "0xf233dcee88fe0abe",
-    FlowToken: "0x1654653399040a61",
-  },
-  emulator: {
-    FungibleToken: "0xee82856bf20e2aa6",
-    FlowToken: "0x0ae53cb6e3f42a79",
-  },
-};
+import TRANSFER_FLOW_TRANSACTION from "@cadence/transactions/TransferFlow.cdc";
 
 export function SendFlow({ stepNumber = 4 }: { stepNumber?: number }) {
   const { user } = useFlowCurrentUser();
@@ -52,11 +11,6 @@ export function SendFlow({ stepNumber = 4 }: { stepNumber?: number }) {
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
   const network = flowNetwork || "testnet";
-
-  const transaction = TRANSFER_FLOW_TRANSACTION.replace(
-    /0xFungibleToken/g,
-    CONTRACT_ADDRESSES[network].FungibleToken
-  ).replace(/0xFlowToken/g, CONTRACT_ADDRESSES[network].FlowToken);
 
   const { mutate, isPending, isSuccess, error, data } = useFlowMutate();
 
@@ -70,7 +24,7 @@ export function SendFlow({ stepNumber = 4 }: { stepNumber?: number }) {
     // Ensure recipient address has 0x prefix
     const formattedRecipient = recipient.startsWith("0x") ? recipient : `0x${recipient}`;
     mutate({
-      cadence: transaction,
+      cadence: TRANSFER_FLOW_TRANSACTION,
       args: (arg, t) => [
         arg(formattedAmount, t.UFix64),
         arg(formattedRecipient, t.Address),
