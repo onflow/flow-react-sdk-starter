@@ -3,16 +3,16 @@
   "version": "1.0.1",
   "description": "A minimal Next.js starter template to build on Flow",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start"
   },
   "dependencies": {
     "@onflow/fcl": "^1.20.3",
     "@onflow/react-sdk": "^0.11.0",
-    "next": "^15.5.7",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "next": "^16.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
