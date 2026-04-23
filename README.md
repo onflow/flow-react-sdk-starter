@@ -1,6 +1,6 @@
-# Flow React SDK Starter
+# flow-react-sdk-starter — Next.js Starter for Flow React SDK
 
-A minimal Next.js starter template for building Flow blockchain applications using `@onflow/react-sdk`. This starter includes interactive tutorials and examples to help you get started quickly.
+A minimal Next.js starter template for building Flow applications using `@onflow/react-sdk`. This starter includes interactive tutorials and examples to help you get started quickly.
 
 ## Features
 
@@ -89,7 +89,7 @@ flowNetwork: "emulator",
 
 ## Running on Flow Emulator
 
-The Flow Emulator allows you to run a local Flow blockchain for development and testing. The Connect button works seamlessly with the emulator's dev wallet.
+The Flow Emulator allows you to run a local Flow network for development and testing. The Connect button works seamlessly with the emulator's dev wallet.
 
 ### Prerequisites
 
@@ -175,7 +175,7 @@ emulator-account.pkey            # Emulator account private key
              typeof window !== "undefined" ? window.location.origin : "",
            appDetailIcon: "https://avatars.githubusercontent.com/u/62387156?v=4",
            appDetailDescription:
-             "A Next.js starter template for Flow blockchain applications",
+             "A Next.js starter template for Flow applications",
 
            // Optional configuration
            computeLimit: 1000,
@@ -258,3 +258,12 @@ The `useFlowMutate` hook executes Cadence transactions that modify blockchain st
 - [Cadence Documentation](https://cadence-lang.org) - Smart contract language
 - [FCL GitHub](https://github.com/onflow/fcl-js) - Flow Client Library
 - [FlowScan](https://testnet.flowscan.io) - Testnet block explorer
+
+## About Flow
+
+This repo is part of the [Flow network](https://flow.com), a Layer 1 blockchain built for consumer applications, AI agents, and DeFi at scale.
+
+- Developer docs: https://developers.flow.com
+- Cadence language: https://cadence-lang.org
+- Community: [Flow Discord](https://discord.gg/flow) · [Flow Forum](https://forum.flow.com)
+- Governance: [Flow Improvement Proposals](https://github.com/onflow/flips)
