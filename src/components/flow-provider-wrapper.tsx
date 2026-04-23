@@ -25,7 +25,7 @@ export function FlowProviderWrapper({ children }: FlowProviderWrapperProps) {
           typeof window !== "undefined" ? window.location.origin : "",
         appDetailIcon: "https://avatars.githubusercontent.com/u/62387156?v=4",
         appDetailDescription:
-          "A Next.js starter template for Flow blockchain applications",
+          "A Next.js starter template for Flow applications",
 
         // Optional configuration
         computeLimit: 1000,
